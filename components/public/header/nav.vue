@@ -98,7 +98,8 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app">
+                  alt="美团app"
+                >
               </a>
             </dd>
             <dd>
@@ -106,7 +107,8 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app">
+                  alt="美团app"
+                >
               </a>
             </dd>
             <dd>
@@ -114,7 +116,8 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app">
+                  alt="美团app"
+                >
               </a>
             </dd>
             <dd>
@@ -122,7 +125,8 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app">
+                  alt="美团app"
+                >
               </a>
             </dd>
             <dd>
@@ -130,7 +134,8 @@
                 <img
                   src="//s0.meituan.net/bs/fe-web-meituan/e5eeaef/img/appicons/meituan.png"
                   title="美团app"
-                  alt="美团app">
+                  alt="美团app"
+                >
               </a>
             </dd>
           </dl>
