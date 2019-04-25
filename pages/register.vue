@@ -33,7 +33,7 @@
           <el-input v-model="ruleForm.code" type="code" max-length="4" />
         </el-form-item>
         <el-form-item label="创建密码" prop="pwd">
-          <el-input v-model="ruleForm.pass" type="pwd" autocomplete="off" />
+          <el-input v-model="ruleForm.pwd" type="password" autocomplete="off" />
         </el-form-item>
         <el-form-item label="确认密码" prop="cpwd">
           <el-input v-model="ruleForm.cpwd" type="password" autocomplete="off" />
@@ -56,6 +56,7 @@
   </div>
 </template>
 <script>
+import CryptoJS from 'crypto-js'
 export default {
   layout: 'blank',
   data() {
@@ -139,6 +140,7 @@ export default {
               self.statusMsg = `验证码已发送,剩余${count--}秒`
               if (count === 0) {
                 clearInterval(self.timerid)
+                self.statusMsg = ''
               }
             }, 1000)
           } else {
@@ -148,6 +150,30 @@ export default {
       }
     },
     register() {
+      const self = this
+      self.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          self.$axios.post('/users/signup', {
+            username: window.encodeURIComponent(self.ruleForm.name),
+            password: CryptoJS.MD5(self.ruleForm.pwd).toString(),
+            email: self.ruleForm.email,
+            code: self.ruleForm.code
+          }).then(({ status, data }) => {
+            if (status === 200) {
+              if (data && data.code === 0) {
+                location.href = '/login'
+              } else {
+                self.error = data.msg
+              }
+            } else {
+              self.error = `服务器出错，错误码${JSON.stringify(status)}`
+            }
+            setTimeout(function () {
+              self.error = ''
+            }, 5000000)
+          })
+        }
+      })
     }
   }
 }

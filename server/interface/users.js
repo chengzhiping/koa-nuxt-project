@@ -22,7 +22,6 @@ router.post('/signup', async (ctx) => {
   if (code) {
     const saveCode = await Store.hget(`nodemail: ${username}`, 'code')
     const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
-
     if (code === saveCode) {
       if (new Date().getTime() - saveExpire > 0) {
         ctx.body = {
@@ -58,10 +57,15 @@ router.post('/signup', async (ctx) => {
     email
   })
   if (newUser) {
-    const res = await Axios.post('/users/signin', {
-      username,
-      password
-    })
+    let res
+    try {
+      res = await Axios.post('/users/signin', {
+        username,
+        password
+      })
+    } catch (error) {
+      global.console.log('***', error)
+    }
     if (res.data && res.data.code === 0) {
       ctx.body = {
         code: 0,
@@ -95,8 +99,10 @@ router.post('/signin', (ctx, next) => {
         msg: '登录成功',
         user
       }
+      global.console.log('登录成功', user)
       return ctx.login(user)
     } else {
+      global.console.log('登录异常', info)
       ctx.body = {
         code: 1,
         msg: info
@@ -130,6 +136,7 @@ router.post('/verify', async (ctx, next) => {
     email: ctx.request.body.email,
     user: ctx.request.body.username
   }
+  global.console.log('验证码', ko.code)
   const mailOpts = {
     from: `认证邮件<${Email.stmp.user}>`,
     to: ko.email,
