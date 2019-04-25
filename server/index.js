@@ -1,10 +1,33 @@
-const Koa = require('koa')
-// import Koa from 'koa'
+// const Koa = require('koa')
+import Koa from 'koa'
+
+import mongoose from 'mongoose'
+import bodyParser from 'koa-bodyparser'
+import session from 'koa-generic-session'
+import Redis from 'koa-redis'
+import json from 'koa-json'
+import dbConfig from './dbs/config'
+import passport from './interface/utils/passport'
+import users from './interface/users'
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 
 const app = new Koa()
 
+app.keys = ['czp', 'keyskeys']
+app.proxy = true
+app.use(session({ key: 'czp', prefix: 'czp:uid', store: new Redis() }))
+app.use(bodyParser({
+  extendTypes: true
+}))
+app.use(json())
+
+// 数据库连接
+mongoose.connect(dbConfig.dbs, {
+  useNewUrlParser: true
+})
+app.use(passport.initialize())
+app.use(passport.session())
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
 config.dev = !(app.env === 'production')
@@ -25,6 +48,8 @@ async function start() {
   } else {
     await nuxt.ready()
   }
+
+  app.use(users.routes()).use(users.allowedMethods())
 
   app.use((ctx) => {
     ctx.status = 200
