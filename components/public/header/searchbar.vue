@@ -95,7 +95,7 @@ export default {
       search: '', // 搜索框内容
       isFocus: false, // 搜索框是否聚焦
       hotPlace: ['火锅', '火锅', '火锅', '火锅'],
-      searchList: ['故宫', '故宫', '故宫', '故宫']
+      searchList: ['故宫', '故宫', '故宫', '鸟巢']
     }
   },
   computed: {
