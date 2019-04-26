@@ -1,13 +1,13 @@
 <template>
   <div class="m-geo">
-    <i class="el-icon-location">北京市</i>
+    <i class="el-icon-location">深圳市</i>
     <nuxt-link
       class="changeCity"
       to="/changeCity"
     >
       切换城市
     </nuxt-link>
-    [南昌 九江 深圳]
+    [广州 东莞 惠州]
   </div>
 </template>
 

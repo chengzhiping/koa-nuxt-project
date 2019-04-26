@@ -12,6 +12,7 @@ const router = new Router({
 
 const Store = new Redis().client
 
+// 注册
 router.post('/signup', async (ctx) => {
   const {
     username,
@@ -22,6 +23,7 @@ router.post('/signup', async (ctx) => {
   if (code) {
     const saveCode = await Store.hget(`nodemail: ${username}`, 'code')
     const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
+    global.console.log('验证码有效期：', saveExpire, saveCode)
     if (code === saveCode) {
       if (new Date().getTime() - saveExpire > 0) {
         ctx.body = {
@@ -114,7 +116,8 @@ router.post('/signin', (ctx, next) => {
 router.post('/verify', async (ctx, next) => {
   const username = ctx.request.body.username
   const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
-  if (saveExpire && new Date().getTime() - saveExpire < 0) {
+  global.console.log(saveExpire)
+  if (saveExpire && Date.now() - saveExpire < 60000) {
     ctx.body = {
       code: -1,
       msg: '验证请求过于频繁，1分钟内1次'
@@ -123,7 +126,7 @@ router.post('/verify', async (ctx, next) => {
   }
   const transporter = nodeMailer.createTransport({
     host: Email.stmp.host,
-    port: 587,
+    port: Email.stmp.port,
     secure: false,
     auth: {
       user: Email.stmp.user,
@@ -147,6 +150,7 @@ router.post('/verify', async (ctx, next) => {
     if (error) {
       return global.console.log('发送邮件失败', error)
     } else {
+      global.console.log('发送邮件成功，将信息存入session')
       Store.hmset(`nodemail: ${ko.user}`, 'code', ko.code, 'expire', ko.expire, 'email', ko.email)
     }
   })

@@ -26,11 +26,13 @@
         <el-input
           v-model="username"
           prefix-icon="profile"
+          placeholder="请输入账户名"
         />
         <el-input
           v-model="password"
           prefix-icon="password"
           type="password"
+          placeholder="请输入密码"
         />
         <div class="foot">
           <el-checkbox v-model="checked">
@@ -52,7 +54,7 @@
 </template>
 
 <script>
-// import CryptoJS from 'crypto-js'
+import CryptoJS from 'crypto-js'
 export default {
   data: () => {
     return {
@@ -64,7 +66,20 @@ export default {
   },
   layout: 'blank',
   methods: {
-    login: function () {
+    async login() {
+      const { status, data } = await this.$axios.post('/users/signin', {
+        username: window.encodeURIComponent(this.username),
+        password: CryptoJS.MD5(this.password).toString()
+      })
+      if (status === 200) {
+        if (data && data.code === 0) {
+          location.href = '/'
+        } else {
+          this.error = data.msg
+        }
+      } else {
+        this.error = '服务器出错'
+      }
     }
   }
 }

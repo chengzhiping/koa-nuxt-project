@@ -9,6 +9,7 @@ import json from 'koa-json'
 import dbConfig from './dbs/config'
 import passport from './interface/utils/passport'
 import users from './interface/users'
+import geo from './interface/geo'
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
 
@@ -18,7 +19,7 @@ app.keys = ['czp', 'keyskeys']
 app.proxy = true
 app.use(session({ key: 'czp', prefix: 'czp:uid', store: new Redis() }))
 app.use(bodyParser({
-  extendTypes: true
+  extendTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 
@@ -50,6 +51,7 @@ async function start() {
   }
 
   app.use(users.routes()).use(users.allowedMethods())
+  app.use(geo.routes()).use(geo.allowedMethods())
 
   app.use((ctx) => {
     ctx.status = 200

@@ -20,23 +20,23 @@
     <section>
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px" class="demo-ruleForm">
         <el-form-item label="昵称" prop="name">
-          <el-input v-model="ruleForm.name" type="name" autocomplete="off" />
+          <el-input v-model="ruleForm.name" type="name" autocomplete="off" placeholder="请输入您的昵称" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="ruleForm.email" type="email" autocomplete="off" />
+          <el-input v-model="ruleForm.email" type="email" autocomplete="off" placeholder="请填写您的邮箱地址" />
           <el-button size="mini" round @click="sendMsg()">
             发送验证码
           </el-button>
           <span class="status">{{ statusMsg }}</span>
         </el-form-item>
         <el-form-item label="验证码" prop="code">
-          <el-input v-model="ruleForm.code" type="code" max-length="4" />
+          <el-input v-model="ruleForm.code" type="code" max-length="4" placeholder="请输入您收到的验证码" />
         </el-form-item>
         <el-form-item label="创建密码" prop="pwd">
-          <el-input v-model="ruleForm.pwd" type="password" autocomplete="off" />
+          <el-input v-model="ruleForm.pwd" type="password" autocomplete="off" placeholder="请输入密码" />
         </el-form-item>
         <el-form-item label="确认密码" prop="cpwd">
-          <el-input v-model="ruleForm.cpwd" type="password" autocomplete="off" />
+          <el-input v-model="ruleForm.cpwd" type="password" autocomplete="off" placeholder="请再次输入密码" />
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="register()">
