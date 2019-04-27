@@ -143,8 +143,8 @@ router.post('/verify', async (ctx, next) => {
   const mailOpts = {
     from: `认证邮件<${Email.stmp.user}>`,
     to: ko.email,
-    subject: '您的注册码如下',
-    html: `您的邀请码${ko.code}`
+    subject: '您收到一封验证邮件',
+    html: `您的验证码为： ${ko.code}，有效期为1分钟。`
   }
   await transporter.sendMail(mailOpts, (error, info) => {
     if (error) {
