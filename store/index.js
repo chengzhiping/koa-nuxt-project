@@ -1,22 +1,16 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import geo from './geo'
-
-Vue.use(Vuex)
-
-const store = () => new Vuex.Store({
-  modules: {
-    geo
-  },
-  actions: {
-    async nuxtServerInit({
-      commit
-    }, { req, app }) {
-      // const { status, data: { provice, city } } = await app.$axios.get('/geo/getPostion')
-      // global.console.log(provice, city, status)
-      global.console.log(await app.$axios.get('/geo/getPostion'))
-    }
-  }
+export const state = () => ({
+  leads: []
 })
 
-export default store
+export const mutations = {
+  SET_LEADS(state, leads) {
+    state.leads = leads
+  }
+}
+
+export const actions = {
+  async nuxtServerInit({ commit }, { req, app }) {
+    const { status, data: { province, city } } = await app.$axios.get('http://localhost:3000/geo/getPosition')
+    global.console.log(status, province, city)
+  }
+}
