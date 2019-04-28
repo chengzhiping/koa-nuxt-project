@@ -63,6 +63,7 @@ export default {
     return {
       statusMsg: '',
       error: '',
+      timerid: null,
       ruleForm: {
         name: '',
         code: '',
@@ -138,8 +139,10 @@ export default {
             self.statusMsg = `验证码已发送,剩余${count--}秒`
             self.timerid = setInterval(function () {
               self.statusMsg = `验证码已发送,剩余${count--}秒`
+              window.console.log(count)
               if (count === 0) {
-                clearInterval(self.timerid)
+                window.clearInterval(self.timerid)
+                self.timerid = null
                 self.statusMsg = ''
               }
             }, 1000)

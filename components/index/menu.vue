@@ -17,11 +17,13 @@
   </div>
 </template>
 <script>
+// import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
       kind: '', // 当前选中类型
-      menu: [{
+      menu2: [{
         type: 'food',
         name: '美食',
         child: [{
@@ -48,6 +50,13 @@ export default {
   computed: {
     curdetail() {
       return this.menu.filter(item => item.type === this.kind)[0]
+    },
+    // ...mapState({
+    //   menu: 'menu2'
+    // })
+    menu() {
+      global.console.log(this.$store.state)
+      return this.$store.state.modules.home.menu
     }
   },
   methods: {
